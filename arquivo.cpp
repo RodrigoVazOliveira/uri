@@ -7,7 +7,7 @@
 
 struct data{
     char data;
-    struct data* next;
+    struct data* next, *last;
 };
 
 struct list{
@@ -29,9 +29,70 @@ LIST* listcreate(){
 }
 
 
+int insertinit(LIST* L, char x){
+    
+    if (L == NULL) return -1;
+
+    DATA* temp =  (DATA*) malloc(sizeof(DATA));
+
+    if (L->head == NULL && L->tail == NULL){
+        temp->data   = x;
+        temp->last = L->head;
+        temp->next = L->tail;
+        L->head    = L->tail  = temp;
+        L->qt++;
+        
+        return 1;
+    }else{
+        temp->data    = x;
+        temp->next = L->head;
+        temp->last = NULL;
+        L->head->last = temp;
+        L->head    = temp;
+        L->qt++;
+
+        return 1;
+    }
+}
+
+int insertfinal(LIST* L, char x){
+
+    if (L == NULL) return -1;
+
+    DATA* temp = (DATA*) malloc(sizeof(DATA));
+
+    temp->data = x;
+
+    temp->last = L->tail;
+    temp->next = NULL;
+    L->tail->next = temp;
+    L->tail     = temp;
+
+    return 1;
+
+}
+
+
+int insertmeans(LIST* L, DATA* k, char x){
 
 
 
+}
+
+void freelist(LIST* L){
+
+    if (L != NULL){
+        DATA* temp = L->head;
+        DATA* x;
+
+        while (temp != NULL){
+           x  = temp;
+            temp = temp->next;
+            free(x);
+        }
+        free(L);    
+    }
+}
 
 
 int main (){
