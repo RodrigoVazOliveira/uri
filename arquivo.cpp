@@ -73,9 +73,21 @@ int insertfinal(LIST* L, char x){
 }
 
 
-int insertmeans(LIST* L, DATA* k, char x){
+int insertmeans(LIST* L,int p, DATA* k, char x){
 
+    DATA* j = L->head;
 
+    if (p > 0){
+        while (p--) j = j->next;
+    }
+
+    k->next = j->next;
+    k->last = j;
+    j->next = k;
+
+    L->qt++;
+
+    return 1;
 
 }
 
@@ -99,11 +111,32 @@ int main (){
 
 
     char string[MAX];
+    unsigned i, j, k, size;
+
 
     // lendo o texto ate o fim do arquivo 
     while (scanf("%s", string) != EOF){
     
-    
+            LIST* l = listcreate();
+            size    = strlen(string);
+
+            j = 0;
+            k = 0;
+            for (i = 0; i < size; i++){
+                if (string[i] == '[') {
+                        j = 1;
+                        k = 0;
+                }
+                if (string[i] == ']') j = 0;
+
+                if (string[i] != '[' && string[i] != ']'){
+                    if (j == 1){
+
+                    }else{
+                        insertfinal(l, string[i]);
+                    }
+                }
+            }
     
     }
 
