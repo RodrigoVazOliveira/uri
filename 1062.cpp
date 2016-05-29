@@ -69,66 +69,65 @@ void destroy(STACK* stack){
 
 int main(){
 
-    int num[MAX], i, j, n;
+    int i=1, j, k, n, num[MAX];
     STACK* pilha = create();
-    bool result = false, breakpoint = false;
+    bool result, breakpoint;
 
-    while(scanf("%d", &n) && n > 0){
-        // preenchendo os vagoes na estaçao
-        for (i = 1; i <= n; i++){
-            scanf("%d", &num[i]);
-            if (num[i] == 0){
-                breakpoint = true;
-                printf("\n");
-                break;
-            }
-        }
+    while (scanf("%d", &n) && n > 0)
+    {
+        while (1)
+        {
+            // auxilio na parada a da mermutação
+            breakpoint = result = false;
+            j = 1;
+            for (i = 1; i <= n; i++)
+            {
+                scanf("%d", &num[i]);
+                if (num[i] == 0){
+                    breakpoint = true;
+                    printf("\n"); // salto na linha como demonstrado na saida do uri
+                    break; // para o loop de leitura de ordem de vagoes
+                }
+            }    
+            
+            
+            if (breakpoint == true) break; // sai do loop e de permutação e le mais um novo grupo de permutação
 
+            i = 1; 
 
-        result = false;
-        i = 1; j = 1;
-        while (i <= n && result == false && breakpoint == false){
-            while(1){
-                
-                if (!empty(pilha) && top(pilha) == num[i]){
-                    
-                    pop(pilha);
-                    break;
-                }else if (j <= n){
-                        push(pilha, j); 
+            while (i <= n && result == false)
+            {
+                while(1){
+                    if (!empty(pilha) && top(pilha) == num[i])
+                    {
+                        pop(pilha);
+                        break;
+                    }else if (j <= n)
+                    {
+                        push(pilha, j);
                         j++;
                         if (top(pilha) == num[i]){
                             pop(pilha);
                             break;
                         }
-                }else{
-                    result = true;
-                    break;
-                }
-            }        
-            i++;
-        }
-        if (breakpoint == true) break;
-        if (empty(pilha)) printf("Yes\n");
-        else printf("No\n");
+                    }else{
+                        result = true;
+                        break;
+                    }
+                
+                }  
+                i++;
+            }
+            
+            if (empty(pilha)) printf("Yes\n");
+            else printf("No\n");
 
-        clear(pilha);
-    
-    }    
+            clear(pilha);
+
+        }// loop de permutação    
+    }
 
     destroy(pilha);
 
-	return 0;
+    return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
