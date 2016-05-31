@@ -214,7 +214,7 @@ int main (){
     }
 
 
-    printf("\n");
+    
     freelist(l);
 
     return 0;
