@@ -191,7 +191,7 @@ int main (){
                         k = 0;
                 }
                 if (string[i] == ']') j = 0;
-                if (string[i] == '[' && i == 0) j = 0;                
+                if (string[i] == '[' && qtlist(l) == 0) j = 0;                
 
                 if (string[i] != '[' && string[i] != ']'){
                     if (j == 1 && qtlist(l) != 0){ 
