@@ -1,119 +1,32 @@
-# include <stdio.h>
-# include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
-typedef struct _Pilha
-{
-    char op;
-    struct _Pilha *prox;
-}Pilha;
+/*****************************************************************************************
+ *
+ *  Author: Rodrigo Vaz De Oliveira
+ *  URI JUDGE - PROBLEMS 1077 
+ *
+ *  O Professor solicitou que você escreva um programa que converta uma expressão na forma infixa (como usualmente conhecemos) para uma expressão na forma posfixa. Como você sabe, os termos in (no meio) e pos (depois) se referem à posição dos operadores. O programa terá que lidar somente com operadores binários +,-,*,/,^, parênteses, letras e números. Um exemplo seria uma expressão como:
+ *  (A*B+2*C^3)/2*A. O programa deve converter esta expressão (infixa) para a expressão posfixa: AB*2C3^*+2/A*
+ *   
+ *
+ *   Entrada
+ *
+ *   A primeira linha da entrada contém um valor inteiro N (N < 1000), que indica o número de casos de teste. Cada caso de teste a seguir é uma expressão válida na forma infixa, com até 300 caracteres.
+ *
+ *   Saída
+ *
+ *   Para cada caso, apresente a expressão convertida para a forma posfixa.
+ *
+ *
+ *
+ ******************************************************************************************/
 
-void transfereTempPos( Pilha **pPos, Pilha **pTemp, Pilha *aux )
-{
-    aux = ( *pTemp ) -> prox;
-    ( *pTemp ) -> prox = *pPos;
-    *pPos = *pTemp;
-    *pTemp = aux;
-}
-
-void alocaCharNaPilha( Pilha **pilha, Pilha *aux, char op )
-{
-    aux = ( Pilha *) malloc( sizeof( Pilha ) );
-    aux -> op = op;  
-    aux -> prox = *pilha;
-    *pilha = aux;
-}
-
-void leOperacao( Pilha **pPos, Pilha **pTemp )
-{
-    char op;
-    Pilha *aux;
-    
-    scanf( "%c", &op );
-    while( op != '\n' )
-    {      
-
-        switch( op )
-        {
-            case '+':
-            case '-':
-
-                while( ( *pTemp ) && ( (*pTemp) -> op != '(' ) )
-                {
-                    transfereTempPos( &( *pPos ), &( *pTemp ), aux );
-                }
-
-                alocaCharNaPilha( &( *pTemp ), aux, op );
-                
-                break;
-
-            case '*':
-            case '/':
-
-                while( ( *pTemp ) && ( (*pTemp) -> op != '+' && (*pTemp) -> op != '-'
-                        && (*pTemp) -> op != '(' ) )
-                {        
-                    transfereTempPos( &( *pPos ), &( *pTemp ), aux );
-                }
-
-                alocaCharNaPilha( &( *pTemp ), aux, op );
-                
-                break;
-
-            case ')':
-                while( ( *pTemp ) && ( (*pTemp) -> op != '(' ) )
-                {
-                    transfereTempPos( &( *pPos ), &( *pTemp ), aux );
-                }
-
-                if( (*pTemp) && (*pTemp) -> op == '(' )
-                {
-                    aux = *pTemp;
-                    *pTemp = (*pTemp) -> prox;
-                    free( aux );
-                }
-                
-                break;
-
-            case '(':
-                alocaCharNaPilha( &( *pTemp ), aux, op );
-                
-                break;
-
-            default:
-                alocaCharNaPilha( &( *pPos ), aux, op );
-                
-                break;
-        }
-
-        scanf( "%c", &op );
-    }
-
-    while( *pTemp )
-    {
-        alocaCharNaPilha( &( *pTemp ), aux, op );
-    }
-    
-}
-
-void imprime( Pilha *topo )
-{
-    if( topo )
-    {
-        imprime( topo -> prox );
-        printf( "%c", topo -> op );
-    }   
-}
+// create the struct the stack the is utils.
 
 int main()
 {
-    Pilha *pPos = NULL;
-    Pilha *pTemp = NULL;
-
-    printf( "Operacao Infixa: " );
-    leOperacao( &pPos, &pTemp );
-    printf( "Operacao Posfixa: " );
-    imprime( pPos );
-    printf( "\n" );
 
     return 0;
 }
