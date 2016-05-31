@@ -3,7 +3,7 @@
 #include <cstring>
 
 // tamanho maximo da minha string exigida pelo URI
-#define MAX 1000001
+#define MAX 100001
 
 // tipo de dado a ser trabalhado e os seus ponteiro de proximo e anterior (item no caso)
 struct data{
@@ -151,14 +151,7 @@ void clearlist(LIST* L){
 void freelist(LIST* L){
 
     if (L != NULL){
-        DATA* temp = L->head;
-        DATA* x;
-
-        while (temp != NULL){
-           x  = temp;
-            temp = temp->next;
-            free(x);
-        }
+        clearlist(L); 
         free(L);    
     }
 }
@@ -182,14 +175,14 @@ int main (){
 
 
     char string[MAX]; /// variavel que sera utilizada para ler a frase
-    unsigned i, j, k, size; // variaveis para loops e size para pegar o tamanha do string corretamente.
+    unsigned i, j, k,m, size; // variaveis para loops e size para pegar o tamanha do string corretamente.
     LIST* l = listcreate(); // inciia uma nova lista
 
     // lendo o texto ate o fim do arquivo 
     while (scanf("%s", string) != EOF){
     
             size    = (unsigned int) strlen(string); // seta o tamanho da string 
-
+            m = 0; // se houver mais de um '['
             j = 0; // end = 0 home = 1
             k = 0; // contador de posições de uma palavra dentro de um [exemplo]
             for (i = 0; i < size; i++){
@@ -198,15 +191,19 @@ int main (){
                         k = 0;
                 }
                 if (string[i] == ']') j = 0;
+                if (string[i] == '[' && i == 0) j = 0;                
 
                 if (string[i] != '[' && string[i] != ']'){
-                    if (j == 1 && qtlist(l) != 0){
+                    if (j == 1 && qtlist(l) != 0){ 
                        if (k == 0) insertinit(l, string[i]);
                        else insertmeans(l, k, string[i]);
                        k++;
                     }else{
                         // j = 0 logo "end"
-                       insertfinal(l, string[i]);
+                          
+                            insertfinal(l, string[i]);
+                        
+                        
                     }
                 }
             }
@@ -216,6 +213,8 @@ int main (){
             clearlist(l);
     }
 
+
+    printf("\n");
     freelist(l);
 
     return 0;
