@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <cstring>
 
+using namespace std;
+
 /*****************************************************************************************
  *
  *  Author: Rodrigo Vaz De Oliveira
@@ -23,10 +25,113 @@
  *
  ******************************************************************************************/
 
+// constant for limit character 
+const int MAX = 301;
+
 // create the struct the stack the is utils.
+// struct the data for work form
+struct stack{
+    char data;
+    unsigned int total;
+    struct stack* top;
+};
+
+typedef struct stack STACK;
+
+STACK* stack()
+{
+    STACK* temp = (STACK*) malloc(sizeof(STACK));
+    temp->total = 0;
+    temp->top   = NULL;
+
+    if (temp == NULL) exit(1);
+
+    return temp;
+}
+
+unsigned int total(STACK* s) 
+{
+    if (s != NULL)
+    {
+        return s->total;
+    }
+}
+
+bool empty(STACK* s)
+{
+    return (int)total(s) == 0; 
+}
+
+char top(STACK* s)
+{
+    if (!empty(s))
+    {
+        return s->data;
+    }
+}
+
+void push(STACK* s, char data)
+{
+    if (!empty(s))
+    {
+        STACK* temp = stack();
+        temp->data  = data;
+        temp->top   = s->top;
+        s->top      = temp;
+        s->total++;
+     }else
+    {
+        STACK* temp = stack();
+        temp->data  = data;;
+        s->top      = temp;
+        s->total++;      
+    }
+}
+
+void pop(STACK* s)
+{
+    STACK* temp;
+    if (!empty(s))
+    {
+        temp   = s->top;
+        s->top = temp->top;
+        free(temp);
+        s->total--;
+    }
+}
+
+void clear(STACK* s)
+{
+    int i = (int) total(s);
+
+    for (i; empty(s); i--)
+    {
+        pop(s);
+    }         
+    
+}
+
+void destroy(STACK* s)
+{
+    clear(s);
+    free(s);
+}
 
 int main()
 {
+    unsigned int i, j, k, l; // utils possible loops
+    int numberTest; // cases tests information are user
+    char expression[MAX]; // expression
+    
+    scanf("%d", &numberTest); // ready cases tests
+
+    while(--numberTest)
+    {
+        // ready expression
+        scanf("%d", expression);
+
+
+    }
 
     return 0;
 }
